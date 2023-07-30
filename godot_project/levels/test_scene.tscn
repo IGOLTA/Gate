@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1rj0xud8wj17"]
+
+[ext_resource type="PackedScene" uid="uid://cg0pb4coa468d" path="res://player.tscn" id="1_5fdio"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3y3k6"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dle1p"]
+size = Vector3(10, 1, 10)
+
+[node name="TestScene" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_3y3k6")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_dle1p")
+
+[node name="Player" parent="." instance=ExtResource("1_5fdio")]
+process_mode = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67663, 0)
+velocity = Vector3(0, 0, 0)

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cg0pb4coa468d"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nh3en"]
+margin = 0.4
+radius = 0.25
+height = 1.9
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_f5t1w"]
+radius = 0.25
+height = 1.9
+
+[node name="Player" type="Player"]
+process_mode = 4
+velocity = Vector3(0, -22.4113, 0)
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_nh3en")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_f5t1w")
