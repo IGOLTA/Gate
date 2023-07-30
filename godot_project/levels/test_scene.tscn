@@ -1,25 +1,82 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1rj0xud8wj17"]
+[gd_scene load_steps=11 format=3 uid="uid://c1rj0xud8wj17"]
 
 [ext_resource type="PackedScene" uid="uid://cg0pb4coa468d" path="res://player.tscn" id="1_5fdio"]
+[ext_resource type="Shader" uid="uid://b2853tfl0pcme" path="res://shaders/portal_shader.tres" id="2_rqblx"]
+[ext_resource type="Texture2D" uid="uid://q4ck7cdvaspn" path="res://portals/portal_2_texture.tres" id="3_dawgb"]
+[ext_resource type="Texture2D" uid="uid://c77dq6iwcofn4" path="res://portals/portal_1_texture.tres" id="4_l4fpj"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_3y3k6"]
-size = Vector3(10, 1, 10)
+size = Vector3(20, 1, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dle1p"]
-size = Vector3(10, 1, 10)
+size = Vector3(20, 1, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pd17f"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_rqblx")
+shader_parameter/ViewportTexture = ExtResource("3_dawgb")
+
+[sub_resource type="QuadMesh" id="QuadMesh_wa3hs"]
+material = SubResource("ShaderMaterial_pd17f")
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0anrh"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_rqblx")
+shader_parameter/ViewportTexture = ExtResource("4_l4fpj")
+
+[sub_resource type="QuadMesh" id="QuadMesh_gi51b"]
+material = SubResource("ShaderMaterial_0anrh")
+size = Vector2(2, 2)
 
 [node name="TestScene" type="Node3D"]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Player" parent="." instance=ExtResource("1_5fdio")]
+process_mode = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.54689, 1.59579, 2.40143)
+velocity = Vector3(0, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_3y3k6")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_dle1p")
 
-[node name="Player" parent="." instance=ExtResource("1_5fdio")]
-process_mode = 0
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67663, 0)
-velocity = Vector3(0, 0, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.903739, -0.364642, 0.224259, 0, 0.523867, 0.8518, -0.428084, -0.769805, 0.473439, 0, 0, 0)
+
+[node name="Portal 2" type="Portal" parent="."]
+other_portal = NodePath("../Portal 1")
+player = NodePath("../Player")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7378, 1.51548, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Portal 2"]
+transform = Transform3D(0.625815, 0, -0.779972, 0, 1, 0, 0.779972, 0, 0.625815, 0, 0, 0)
+mesh = SubResource("QuadMesh_wa3hs")
+
+[node name="Viewport" type="SubViewport" parent="Portal 2"]
+handle_input_locally = false
+
+[node name="Camera" type="Camera3D" parent="Portal 2/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.51455, 2.28063, 2.40143)
+
+[node name="Portal 1" type="Portal" parent="."]
+other_portal = NodePath("../Portal 2")
+player = NodePath("../Player")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.32364, 1.50032, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Portal 1"]
+transform = Transform3D(0.727354, 0, 0.686263, 0, 1, 0, -0.686263, 0, 0.727354, -0.000319242, -0.0141604, 0.00591564)
+mesh = SubResource("QuadMesh_gi51b")
+
+[node name="Viewport" type="SubViewport" parent="Portal 1"]
+handle_input_locally = false
+vrs_mode = 2
+
+[node name="Camera" type="Camera3D" parent="Portal 1/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.60833, 2.31095, 2.40143)

@@ -1,0 +1,49 @@
+[gd_resource type="VisualShader" load_steps=4 format=3 uid="uid://b2853tfl0pcme"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_1qtje"]
+output_port_for_preview = 0
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_afbwl"]
+parameter_name = "ViewportTexture"
+texture_type = 1
+texture_filter = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_hgxan"]
+source = 5
+
+[resource]
+resource_local_to_scene = true
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
+
+uniform sampler2D ViewportTexture : source_color, filter_linear;
+
+
+
+void fragment() {
+// Input:3
+	vec2 n_out3p0 = SCREEN_UV;
+
+
+	vec4 n_out5p0;
+// Texture2D:5
+	n_out5p0 = texture(ViewportTexture, n_out3p0);
+
+
+// Output:0
+	ALBEDO = vec3(n_out5p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-248, 63)
+flags/unshaded = true
+nodes/fragment/0/position = Vector2(480, 180)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_1qtje")
+nodes/fragment/3/position = Vector2(-200, 40)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture2DParameter_afbwl")
+nodes/fragment/4/position = Vector2(-220, 280)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_hgxan")
+nodes/fragment/5/position = Vector2(240, 160)
+nodes/fragment/connections = PackedInt32Array(4, 0, 5, 2, 3, 0, 5, 0, 5, 0, 0, 0)

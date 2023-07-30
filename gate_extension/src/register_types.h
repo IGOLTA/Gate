@@ -1,6 +1,8 @@
 #pragma once
 
 #include "player.h"
+#include "portals/portal.h"
+#include "portals/portals_manager.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>

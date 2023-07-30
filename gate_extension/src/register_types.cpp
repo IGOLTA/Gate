@@ -8,6 +8,8 @@ void initialize_gate_module(ModuleInitializationLevel p_level) {
     }
 
     ClassDB::register_class<Player>();
+    ClassDB::register_class<Portal>();
+    ClassDB::register_class<PortalsManager>();
 }
 
 void uninitialize_gate_module(ModuleInitializationLevel p_level) {
